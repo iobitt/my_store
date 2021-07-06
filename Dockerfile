@@ -1,6 +1,6 @@
 FROM ruby:3.0.0
 
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client libpq-dev
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client libpq-dev npm && npm install --global yarn
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
