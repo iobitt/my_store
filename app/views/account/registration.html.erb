@@ -1,0 +1,30 @@
+<div class="container">
+  <h1>Регистрация</h1>
+  <%= params["login"].class %>
+
+  <% @errors.each do |e| %>
+    <div class="alert alert-danger" role="alert">
+      <%= e %>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col">
+      <%= form_with do |form| %>
+        <div class="mb-3">
+          <label for="login" class="form-label">Логин</label>
+          <input type="text" class="form-control" id="login" name="login">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Пароль</label>
+          <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <div class="mb-3">
+          <label for="password2" class="form-label">Повторите пароль</label>
+          <input type="password" class="form-control" id="password2" name="password2">
+        </div>
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+      <% end %>
+    </div>
+  </div>
+</div>
