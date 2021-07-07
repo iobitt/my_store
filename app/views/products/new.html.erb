@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <h1>Добавление нового товара</h1>
+
+    <% @product.errors.each do |e| %>
+      <div class="alert alert-danger" role="alert">
+        <%= e.full_message %>
+      </div>
+    <% end %>
+
+    <%= form_for @product do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
+      <button type="submit" class="btn btn-primary">Добавить</button>
+    <% end %>
+  </div>
+</div>

@@ -13,7 +13,8 @@ module Account
     end
 
     def call
-      User.find_by(token: @token) ? true : false
+      u = User.find_by(token: @token)
+      u ? u : false
     end
   end
 end

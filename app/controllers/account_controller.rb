@@ -27,7 +27,7 @@ class AccountController < ApplicationController
 
   def logout
     cookies[:token] = nil
-    redirect_to action: :login
+    redirect_to "/"
   end
 
   def registration

@@ -1,7 +1,34 @@
+<div class="container">
+  <% if @products %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Название</th>
+        <th scope="col">Цена</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Кто добавил</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @products.each do |i| %>
+          <tr>
+            <td><%= i.name %></td>
+            <td><%= i.price %></td>
+            <td><%= i.quantity %></td>
+            <td><%= i.user.name %></td>
+            <td><%= link_to "подробнее", controller: :products, action: :show, id: i.id %></td>
 
-
-
-
-
-<h1>Товары</h1>
-<p>Список товаров пока пуст</p>
+            <% if @user %>
+              <td><%= link_to "изменить", controller: :products, action: :edit, id: i.id %></td>
+              <td><%= link_to "Удалить", product_path(i),
+                              method: :delete,
+                              data: { confirm: "Вы уверены?" } %></td>
+            <% end %>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>Список товаров пока пуст</p>
+  <% end %>
+</div>

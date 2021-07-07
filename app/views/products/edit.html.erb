@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="row">
+    <h1>Изменение товара</h1>
+    <%= form_for @product do |f| %>
+      <%= render partial: "form", locals: {f: f} %>
+      <button type="submit" class="btn btn-primary">Изменить</button>
+    <% end %>
+  </div>
+</div>

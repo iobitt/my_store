@@ -23,16 +23,16 @@ module Account
     end
 
     def call
-      if @password != @password2
-        return PASSWORD_MISMATCH
+      if @login.length < 1
+        return LOGIN_SHORT
       end
 
       if @password.length < 8
         return PASSWORD_SHORT
       end
 
-      if @login.length < 1
-        return LOGIN_SHORT
+      if @password != @password2
+        return PASSWORD_MISMATCH
       end
 
       user = User.where(name: @login).first
