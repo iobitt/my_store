@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
     <title>MyStore</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -13,7 +13,35 @@
   </head>
 
   <body>
-  <h1>fssfsfds</h1>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MyStore</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Добавить товар</a>
+          </li>
+        </ul>
+<!--        <form class="d-flex">-->
+<!--          <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">-->
+<!--          <button class="btn btn-outline-success" type="submit">Поиск</button>-->
+<!--        </form>-->
+        <div class="d-flex">
+            <% if @is_auth %>
+              <span>Вы вошли как Иван (<%= link_to "выйти", controller: "account", action: "logout" %>)</span>
+            <% else %>
+              <span>Вход не выполнен (<%= link_to "войти", controller: "account", action: "login" %>)</span>
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+
     <%= yield %>
   </body>
 </html>

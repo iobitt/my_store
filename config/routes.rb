@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   post 'account/login', action: :login, controller: 'account'
   get 'account/registration', action: :registration, controller: 'account'
   post 'account/registration', action: :registration, controller: 'account'
+  get 'account/logout', action: :logout, controller: 'account'
+  get '/', action: :index, controller: :products
+
+  resources :products
 end

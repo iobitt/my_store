@@ -16,12 +16,12 @@ ActiveRecord::Schema.define(version: 2021_07_06_124024) do
   enable_extension "plpgsql"
 
   create_table "users", force: :cascade do |t|
-    t.string "login", null: false
-    t.string "password", null: false
+    t.string "name", null: false
+    t.string "password_digest", null: false
     t.string "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["login"], name: "index_users_on_login", unique: true
+    t.index ["name"], name: "index_users_on_name", unique: true
   end
 
 end
