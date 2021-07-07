@@ -6,13 +6,28 @@ class AccountController < ApplicationController
   layout "account"
 
   def login
-    @token = Account::Login.call params['login'], params['password']
+    @errors = []
 
-    if @token
-      redirect_to "/"
-    else
-      render "account/login"
+    unless request.method == "GET"
+      if params['login'].class != String || params['password'].class != String || params['login'] == "" || params['password'] == ""
+        @errors << "Все поля должны быть заполнены!"
+      else
+        result = Account::Login.call params['login'], params['password']
+        case result.class == Array ? result[0] : result
+        when Account::Login::WRONG_LOGIN_OR_PASS
+          @errors << "Не верный логин или пароль!"
+        when Account::Login::SUCCESS
+          cookies[:token] = result[1]
+          return redirect_to "/"
+        end
+      end
     end
+    render "account/login"
+  end
+
+  def logout
+    cookies[:token] = nil
+    redirect_to action: :login
   end
 
   def registration

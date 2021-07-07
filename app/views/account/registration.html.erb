@@ -1,6 +1,5 @@
 <div class="container">
   <h1>Регистрация</h1>
-  <%= params["login"].class %>
 
   <% @errors.each do |e| %>
     <div class="alert alert-danger" role="alert">
@@ -23,6 +22,7 @@
           <label for="password2" class="form-label">Повторите пароль</label>
           <input type="password" class="form-control" id="password2" name="password2">
         </div>
+        <p><%= link_to "Уже есть аккаунт?", controller: "account", action: "login" %></p>
         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
       <% end %>
     </div>

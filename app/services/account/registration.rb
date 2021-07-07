@@ -8,7 +8,8 @@ module Account
       PASSWORD_MISMATCH = :password_mismatch,
       PASSWORD_SHORT = :password_short,
       LOGIN_BUSY = :login_busy,
-      LOGIN_SHORT = :login_short
+      LOGIN_SHORT = :login_short,
+      FAILURE = :failure
     ]
 
     def initialize(login, password, password2)
@@ -34,13 +35,17 @@ module Account
         return LOGIN_SHORT
       end
 
-      user = User.where(login: @login).first
+      user = User.where(name: @login).first
       if user
         return LOGIN_BUSY
       end
 
-      User.create(login: @login, password: @password)
-      SUCCESS
+      u = User.new(name: @login, password: @password, password_confirmation: @password2)
+      if u.save
+        SUCCESS
+      else
+        FAILURE
+      end
     end
   end
 end

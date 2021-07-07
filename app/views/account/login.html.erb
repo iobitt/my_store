@@ -1,8 +1,12 @@
 <div class="container">
   <h1>Авторизация</h1>
-  <%= @token %>
-  <%= params %>
-  <%= session[:session_id] %>
+
+  <% @errors.each do |e| %>
+    <div class="alert alert-danger" role="alert">
+      <%= e %>
+    </div>
+  <% end %>
+
   <div class="row">
     <div class="col">
       <%= form_with do |form| %>
@@ -14,6 +18,7 @@
           <label for="password" class="form-label">Пароль</label>
           <input type="password" class="form-control" id="password" name="password">
         </div>
+        <p><%= link_to "Нет аккаунта?", controller: "account", action: "registration" %></p>
         <button type="submit" class="btn btn-primary">Войти</button>
       <% end %>
     </div>
