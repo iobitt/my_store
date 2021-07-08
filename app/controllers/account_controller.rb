@@ -45,4 +45,19 @@ class AccountController < ApplicationController
     render "account/registration"
   end
 
+  def get_token
+    response = {}
+    ok, result, errors = Account::RegistrationService.new("Api").call
+
+    if ok
+      response['ok'] = true
+      response['token'] = result.token
+    else
+      response['ok'] = false
+      response['errors'] = errors
+    end
+
+    render :json =>  response
+  end
+
 end
