@@ -1,6 +1,3 @@
-require_relative '../services/account/is_auth_service'
-
-
 class ProductsController < ApplicationController
 
   before_action :get_user
