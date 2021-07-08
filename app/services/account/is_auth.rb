@@ -5,14 +5,12 @@ module Account
   class IsAuth < ApplicationService
 
     def initialize(token)
-      if token.class != String
-        raise "token must be str"
-      end
-
       @token = token
     end
 
     def call
+      return false if @token.class != String
+
       u = User.find_by(token: @token)
       u ? u : false
     end

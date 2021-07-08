@@ -4,7 +4,7 @@ require_relative '../../app/services/account/registration'
 require 'spec_helper'
 
 
-describe Account::Registration, User do
+describe Account::Registration do
 
   it "принимает валидные параметры, создает нового пользователя и возвращает SUCCESS" do
     expect(Account::Registration.call "ivan", "12891289", "12891289").to eq(Account::Registration::SUCCESS)
