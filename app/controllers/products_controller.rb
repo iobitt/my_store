@@ -1,4 +1,4 @@
-require_relative '../services/account/is_auth'
+require_relative '../services/account/is_auth_service'
 
 
 class ProductsController < ApplicationController
@@ -59,7 +59,9 @@ class ProductsController < ApplicationController
     end
 
     def get_user
-      @user = Account::IsAuth.call(cookies[:token])
+      if session[:user_id]
+        @user = Manager.find_by_id(session[:user_id])
+      end
     end
 
     def check_auth

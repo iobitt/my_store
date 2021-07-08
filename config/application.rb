@@ -24,5 +24,7 @@ module MyStore
     #   g.test_gramework :rspec, fixtures: true, views: false
     #   g.fixture_replacement :factory_girl, dir: "spec/factories"
     # end
+
+    # config.autoload_paths << "#{Rails.root}/app/widgets"
   end
 end
