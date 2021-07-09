@@ -9,14 +9,14 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @products }
+      format.json
     end
   end
 
   def show
     respond_to do |format|
       format.html
-      format.json { render json: @product }
+      format.json
     end
   end
 
