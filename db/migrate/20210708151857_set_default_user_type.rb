@@ -1,5 +1,7 @@
+class User < ApplicationRecord; end
+
 class SetDefaultUserType < ActiveRecord::Migration[6.1]
   def up
-    User.update_all type: "Manager"
+    User.in_batches.update_all type: "Manager"
   end
 end
