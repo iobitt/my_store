@@ -1,0 +1,2 @@
+class ProductMirror < ApplicationRecord
+end
