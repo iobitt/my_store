@@ -2,7 +2,7 @@ module Account
   class LoginService
 
     def initialize(name, password)
-      if name.class != String || password.class != String
+      if !name.is_a?(String) || !password.is_a?(String)
         raise "all params must be str"
       end
 

@@ -5,7 +5,7 @@ class AccountController < ApplicationController
     @errors = []
 
     unless request.method == "GET"
-      if params['login'].class != String || params['password'].class != String || params['login'] == "" || params['password'] == ""
+      if !params['login'].is_a?(String) || !params['password'].is_a?(String) || params['login'] == "" || params['password'] == ""
         @errors << "Все поля должны быть заполнены!"
       else
         ok, result, errors = Account::LoginService.new(params['login'], params['password']).call
@@ -29,7 +29,7 @@ class AccountController < ApplicationController
     @errors = []
 
     unless request.method == "GET"
-      if params['login'].class != String || params['password'].class != String || params['password2'].class != String
+      if !params['login'].is_a?(String) || !params['password'].is_a?(String) || !params['password2'].is_a?(String)
         @errors << "Все поля должны быть заполнены!"
       else
         ok, result, errors = Account::RegistrationService.new("Manager", params['login'], params['password'], params['password2']).call
