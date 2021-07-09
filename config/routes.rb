@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post 'account/registration', action: :registration, controller: 'account'
   get 'account/logout', action: :logout, controller: 'account'
   get '/', action: :index, controller: :products
-  get '/api/get_token', action: :get_token, controller: :account
+  post '/api/get_token', action: :get_token, controller: :account
 
   resources :products
 end
