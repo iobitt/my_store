@@ -1,3 +1,6 @@
+require 'date'
+
+
 class ProductsController < ApplicationController
 
   before_action :get_user
@@ -5,7 +8,13 @@ class ProductsController < ApplicationController
   before_action :find_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @products = Product.all
+    updated_after = params['updated_after']
+
+    if updated_after.nil?
+      @products = Product.all.order updated_at: :desc
+    else
+      @products = Product.where(["updated_at > ?", DateTime.strptime(updated_after,'%s')])
+    end
 
     respond_to do |format|
       format.html
