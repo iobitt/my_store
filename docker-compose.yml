@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: password
   web2:
     build: .
-    command: bash -c "rails db:create && rails db:migrate && rm -f tmp/pids/server.pid && bundle exec rails s -p 3001 -b '0.0.0.0'"
+    command: bash -c "rails db:create && rails db:migrate && rm -f tmp/pids/server.pid && (cronenberg cron-jobs.yml &) && bundle exec rails s -p 3001 -b '0.0.0.0'"
     volumes:
       - .:/myapp
     ports:

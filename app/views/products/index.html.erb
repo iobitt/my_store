@@ -15,7 +15,7 @@
             <td><%= i.name %></td>
             <td><%= i.price %></td>
             <td><%= i.quantity %></td>
-            <td><%= i.user.name %></td>
+            <td>Пользователь с ID = <%= i.user_id %></td>
             <td><%= link_to "подробнее", controller: :products, action: :show, id: i.id %></td>
 
             <% if @user %>
