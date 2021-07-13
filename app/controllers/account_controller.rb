@@ -1,24 +1,20 @@
-require_relative '../services/account/login'
-require_relative '../services/account/registration'
-
-
 class AccountController < ApplicationController
   layout "account"
+  before_action :check_auth, :only => [:get_external_token]
 
   def login
     @errors = []
 
     unless request.method == "GET"
-      if params['login'].class != String || params['password'].class != String || params['login'] == "" || params['password'] == ""
+      if !params['login'].is_a?(String) || !params['password'].is_a?(String) || params['login'] == "" || params['password'] == ""
         @errors << "Все поля должны быть заполнены!"
       else
-        result = Account::Login.call params['login'], params['password']
-        case result.class == Array ? result[0] : result
-        when Account::Login::WRONG_LOGIN_OR_PASS
-          @errors << "Не верный логин или пароль!"
-        when Account::Login::SUCCESS
-          cookies[:token] = result[1]
+        ok, result, errors = Account::LoginService.new(params['login'], params['password']).call
+        if ok
+          session[:user_id] = result.id
           return redirect_to "/"
+        else
+          @errors = errors
         end
       end
     end
@@ -26,31 +22,51 @@ class AccountController < ApplicationController
   end
 
   def logout
-    cookies[:token] = nil
-    redirect_to "/"
+    session[:user_id] = nil
+    redirect_to "/account/login/"
   end
 
   def registration
     @errors = []
 
     unless request.method == "GET"
-      if params['login'].class != String || params['password'].class != String || params['password2'].class != String
+      if !params['login'].is_a?(String) || !params['password'].is_a?(String) || !params['password2'].is_a?(String)
         @errors << "Все поля должны быть заполнены!"
       else
-        case Account::Registration.call params['login'], params['password'], params['password2']
-        when Account::Registration::SUCCESS
-          return redirect_to "/account/login"
-        when Account::Registration::PASSWORD_MISMATCH
-          @errors << "Пароли не совпадают!"
-        when Account::Registration::PASSWORD_SHORT
-          @errors << "Пароль должен содержать не менее 8 символов!"
-        when Account::Registration::LOGIN_SHORT
-          @errors << "Логин должен содержать не менее 1 символа!"
-        when Account::Registration::LOGIN_BUSY
-          @errors << "Логин занят!"
+        ok, result, errors = Account::RegistrationService.new("Manager", params['login'], params['password'], params['password2']).call
+
+        if ok
+          session[:user_id] = result.id
+          return redirect_to "/"
+        else
+          @errors = errors
         end
       end
     end
     render "account/registration"
   end
+
+  def get_token
+    response = {}
+    ok, result, errors = Account::RegistrationService.new("Api").call
+
+    if ok
+      response['ok'] = true
+      response['token'] = result.token
+    else
+      response['ok'] = false
+      response['errors'] = errors
+    end
+
+    render :json =>  response
+  end
+
+  def get_external_token
+    user = User.find session[:user_id]
+    user.external_token = SecureRandom.urlsafe_base64(32, false)
+    user.save
+
+    render plain: "Ваш токен: " + user.external_token
+  end
+
 end

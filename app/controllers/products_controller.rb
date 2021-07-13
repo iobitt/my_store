@@ -1,17 +1,31 @@
-require_relative '../services/account/is_auth'
+require 'date'
 
 
 class ProductsController < ApplicationController
 
-  before_action :get_user
-  before_action :check_auth, only: [:create, :new, :edit, :update, :destroy]
+  before_action :check_auth
   before_action :find_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @products = Product.all
+    updated_after = params['updated_after']
+
+    if updated_after.nil?
+      @products = @user.products.all.order updated_at: :desc
+    else
+      @products = @user.products.where(["updated_at > ?", DateTime.strptime(updated_after,'%s')])
+    end
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def new
@@ -56,15 +70,5 @@ class ProductsController < ApplicationController
 
     def product_params
       params.require(:product).permit(:name, :price, :quantity)
-    end
-
-    def get_user
-      @user = Account::IsAuth.call(cookies[:token])
-    end
-
-    def check_auth
-      unless @user
-        render_403
-      end
     end
 end
