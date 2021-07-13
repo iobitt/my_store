@@ -79,9 +79,4 @@ class ProductsController < ApplicationController
       end
     end
 
-    def check_auth
-      unless @user
-        render_403
-      end
-    end
 end

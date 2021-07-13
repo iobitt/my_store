@@ -1,5 +1,6 @@
 class AccountController < ApplicationController
   layout "account"
+  before_action :check_auth, :only => [:get_external_token]
 
   def login
     @errors = []
@@ -58,6 +59,14 @@ class AccountController < ApplicationController
     end
 
     render :json =>  response
+  end
+
+  def get_external_token
+    user = User.find session[:user_id]
+    user.external_token = SecureRandom.urlsafe_base64(32, false)
+    user.save
+
+    render plain: "Ваш токен: " + user.external_token
   end
 
 end
