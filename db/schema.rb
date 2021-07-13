@@ -26,10 +26,15 @@ ActiveRecord::Schema.define(version: 2021_07_12_163720) do
   end
 
   create_table "product_mirrors", force: :cascade do |t|
+    t.integer "inner_id"
+    t.integer "external_id"
     t.string "name"
     t.integer "quantity"
     t.float "price"
     t.integer "user_id"
+    t.datetime "external_created_at"
+    t.datetime "external_updated_at"
+    t.boolean "is_archived", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -16,4 +16,3 @@ module Account
     end
   end
 end
-
