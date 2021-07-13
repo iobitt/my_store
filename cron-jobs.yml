@@ -1,0 +1,3 @@
+- name: products-puller
+  command: /bin/bash scripts/products_sync.bash
+  when: "* * * * *"
