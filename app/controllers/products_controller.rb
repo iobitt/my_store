@@ -4,7 +4,7 @@ require 'date'
 class ProductsController < ApplicationController
 
   before_action :get_user
-  before_action :check_auth, only: [:create, :new, :edit, :update, :destroy]
+  before_action :check_auth
   before_action :find_product, only: [:show, :edit, :update, :destroy]
 
   def index
