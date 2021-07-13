@@ -24,10 +24,6 @@ class ApplicationController < ActionController::Base
     elsif session[:user_id]
       @user = Manager.find_by_id(session[:user_id])
     end
-
-    unless @user
-      render_403
-    end
   end
 
 end
