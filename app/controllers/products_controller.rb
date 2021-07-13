@@ -3,7 +3,6 @@ require 'date'
 
 class ProductsController < ApplicationController
 
-  before_action :get_user
   before_action :check_auth
   before_action :find_product, only: [:show, :edit, :update, :destroy]
 
@@ -11,9 +10,9 @@ class ProductsController < ApplicationController
     updated_after = params['updated_after']
 
     if updated_after.nil?
-      @products = Product.all.order updated_at: :desc
+      @products = @user.products.all.order updated_at: :desc
     else
-      @products = Product.where(["updated_at > ?", DateTime.strptime(updated_after,'%s')])
+      @products = @user.products.where(["updated_at > ?", DateTime.strptime(updated_after,'%s')])
     end
 
     respond_to do |format|
@@ -72,11 +71,4 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:name, :price, :quantity)
     end
-
-    def get_user
-      if session[:user_id]
-        @user = Manager.find_by_id(session[:user_id])
-      end
-    end
-
 end

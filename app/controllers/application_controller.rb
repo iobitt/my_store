@@ -11,6 +11,20 @@ class ApplicationController < ActionController::Base
   private
 
   def check_auth
+    get_user
+
+    unless @user
+      render_403
+    end
+  end
+
+  def get_user
+    if params["external_token"]
+      @user = Manager.find_by_external_token(params["external_token"])
+    elsif session[:user_id]
+      @user = Manager.find_by_id(session[:user_id])
+    end
+
     unless @user
       render_403
     end
