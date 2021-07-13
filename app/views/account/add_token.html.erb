@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>Добавить внешний токен</h1>
+
+  <% @errors.each do |e| %>
+    <div class="alert alert-danger" role="alert">
+      <%= e %>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col">
+      <%= form_with do |form| %>
+        <div class="mb-3">
+          <label for="token" class="form-label">Токен</label>
+          <input type="text" class="form-control" id="token" name="token">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+      <% end %>
+    </div>
+  </div>
+</div>

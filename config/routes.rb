@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'account/registration', action: :registration, controller: 'account'
   post 'account/registration', action: :registration, controller: 'account'
   get 'account/logout', action: :logout, controller: 'account'
+  get 'account/add_external_token', action: :add_external_token, controller: 'account'
+  post 'account/add_external_token', action: :add_external_token, controller: 'account'
   get '/', action: :index, controller: :products
 
   resources :products

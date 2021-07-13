@@ -1,6 +1,3 @@
-require_relative '../services/account/is_auth'
-
-
 class ProductsController < ApplicationController
 
   before_action :get_user
@@ -56,10 +53,6 @@ class ProductsController < ApplicationController
 
     def product_params
       params.require(:product).permit(:name, :price, :quantity)
-    end
-
-    def get_user
-      @user = Account::IsAuth.call(cookies[:token])
     end
 
     def check_auth

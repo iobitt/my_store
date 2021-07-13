@@ -1,7 +1,3 @@
-require_relative '../services/account/login'
-require_relative '../services/account/registration'
-
-
 class AccountController < ApplicationController
   layout "account"
 
@@ -52,5 +48,21 @@ class AccountController < ApplicationController
       end
     end
     render "account/registration"
+  end
+
+  def add_external_token
+    @errors = []
+
+    unless request.method == "GET"
+      if !params['token'].is_a? String || params['token'] == ""
+        @errors << "Все поля должны быть заполнены!"
+      else
+        get_user
+        @user.external_token = params['token']
+        @user.save!
+        return redirect_to "/"
+      end
+    end
+    render "account/add_token"
   end
 end
