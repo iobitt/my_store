@@ -110,6 +110,7 @@ end
 describe ProductsSyncer do
 
   it "проверяет создание товаров" do
+    before_sync_datetime = DateTime.now
     Manager.create!(id: 5, name: "ivan", password: "12891289")
     ProductMirror.create!({external_id: 1, name: "Телефон", price: 3500, quantity: 10, user_id: 5,
                            external_created_at: DateTime.new(2021, 7, 14, 4, 5, 6),
@@ -126,11 +127,12 @@ describe ProductsSyncer do
 
     expect(ProductMirror.count).to eq(3)
     expect(Product.count).to eq(0)
-    ProductsSyncer.new.call
+    ProductsSyncer.new(before_sync_datetime).call
     expect(Product.count).to eq(3)
   end
 
   it "проверяет изменение товаров" do
+    before_sync_datetime = DateTime.now
     Manager.create!(id: 5, name: "ivan", password: "12891289")
 
     Product.create!({id: 1, name: "Телефон", price: 3500, quantity: 10, user_id: 5 })
@@ -150,7 +152,7 @@ describe ProductsSyncer do
                            external_updated_at: DateTime.new(2021, 7, 14, 4, 5, 8)
                           })
 
-    ProductsSyncer.new.call
+    ProductsSyncer.new(before_sync_datetime).call
 
     product3 = Product.find(3)
     expect(product3.name).to eq("Планшет большой")
@@ -159,6 +161,7 @@ describe ProductsSyncer do
   end
 
   it "проверяет удаление товаров" do
+    before_sync_datetime = DateTime.now
     Manager.create!(id: 5, name: "ivan", password: "12891289")
 
     Product.create!({id: 1, name: "Телефон", price: 3500, quantity: 10, user_id: 5 })
@@ -178,7 +181,7 @@ describe ProductsSyncer do
                            external_updated_at: DateTime.new(2021, 7, 14, 4, 5, 8), is_archived: true
                           })
 
-    ProductsSyncer.new.call
+    ProductsSyncer.new(before_sync_datetime).call
     expect(Product.exists?(3)).to eq(false)
   end
 end
