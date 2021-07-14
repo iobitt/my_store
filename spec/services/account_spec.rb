@@ -1,6 +1,4 @@
 require_relative '../../app/services/account/registration'
-# require_relative '../../app/models/user'
-# require_relative '../../app/models/application_record'
 require 'spec_helper'
 
 

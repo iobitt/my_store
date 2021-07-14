@@ -15,12 +15,12 @@ class ProductsSyncer
       # Если нет внутрнеего ID, значит товар новый - создаем
       elsif product_mirror.inner_id.nil?
         new_product = Product.new(product_mirror.mapping)
-        new_product.save
+        new_product.save!
         product_mirror.inner_id = new_product.id
-        product_mirror.save
+        product_mirror.save!
       # В противном случае, просто обновляем значения полей
       else
-        product.update(product_mirror.mapping)
+        product.update!(product_mirror.mapping)
       end
     end
 
