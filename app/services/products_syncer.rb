@@ -1,10 +1,3 @@
-require 'active_record'
-require_relative '../models/application_record'
-require_relative '../models/product_mirror'
-require_relative '../models/product'
-require_relative 'db_connection'
-
-
 class ProductsSyncer
 
   def call
@@ -21,17 +14,13 @@ class ProductsSyncer
         end
       # Если нет внутрнеего ID, значит товар новый - создаем
       elsif product_mirror.inner_id.nil?
-        new_product = Product.new(name: product_mirror.name, price: product_mirror.price,
-                                  quantity: product_mirror.quantity, user_id: product_mirror.user_id,
-                                  created_at: product_mirror.created_at, updated_at: product_mirror.updated_at)
+        new_product = Product.new(product_mirror.mapping)
         new_product.save
         product_mirror.inner_id = new_product.id
         product_mirror.save
       # В противном случае, просто обновляем значения полей
       else
-        product.update(name: product_mirror.name, price: product_mirror.price, quantity: product_mirror.quantity,
-                       user_id: product_mirror.user_id, created_at: product_mirror.created_at,
-                       updated_at: product_mirror.updated_at)
+        product.update(product_mirror.mapping)
       end
     end
 
